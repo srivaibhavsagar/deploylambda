@@ -30,9 +30,14 @@ jobs:
         run: |
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$file was changed";
-            IFS='.'
-            read -a strarr <<<"$file"
-            file_name=${strarr[0]}
+            delimiter=.
+            s=$str$delimiter
+            array=();
+            while [[ $s ]]; do
+                array+=( "${s%%"$delimiter"*}" );
+                s=${s#*"$delimiter"};
+            done;
+            file_name=${array[0]}
             echo "$file_name lambda is getting created"
             zip -r9 $file_name.zip $file_name.py;
             aws lambda update-function-code --function-name $file_name --zip-file fileb://$file_name.zip
