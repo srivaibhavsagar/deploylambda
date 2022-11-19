@@ -39,10 +39,10 @@ jobs:
             echo "$1 lambda is getting created or updated";
             aws lambda get-function --function-name $1 > /dev/null 2>&1
             if [ 0 -eq $? ]; then
-              echo "Lambda '$1' exists"
+              echo "Lambda '$1' exists" &&
               aws lambda update-function-code --function-name $1 --zip-file fileb://$1.zip
             else
-              echo "Lambda '$1' does not exist"
+              echo "Lambda '$1' does not exist" &&
               aws lambda create-function \
             --function-name $1 \
             --runtime python3.9 \
