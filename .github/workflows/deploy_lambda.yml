@@ -31,29 +31,29 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$file was changed";
 
-            file_name="$(cut -d '.' -f 1 <<<"$file")";
+          #   file_name="$(cut -d '.' -f 1 <<<"$file")";
 
-            zip -r9 $file_name.zip $file_name.py;
+          #   zip -r9 $file_name.zip $file_name.py;
 
-            function does_lambda_exist() {
-            echo "$1 lambda is getting created or updated";
-            aws lambda get-function --function-name $1 > /dev/null 2>&1
-            if [ 0 -eq $? ]; then
-              echo "Lambda '$1' exists" &&
-              aws lambda update-function-code --function-name $1 --zip-file fileb://$1.zip
-            else
-              echo "Lambda '$1' does not exist" &&
-              aws lambda create-function \
-            --function-name $1 \
-            --runtime python3.9 \
-            --zip-file fileb://$1.zip \
-            --handler $1.handler \
-            --role arn:aws:iam::184261415726:role/service-role/testingPackage-role-0xjvn09o
-            fi
-          }
+          #   function does_lambda_exist() {
+          #   echo "$1 lambda is getting created or updated";
+          #   aws lambda get-function --function-name $1 > /dev/null 2>&1
+          #   if [ 0 -eq $? ]; then
+          #     echo "Lambda '$1' exists" &&
+          #     aws lambda update-function-code --function-name $1 --zip-file fileb://$1.zip
+          #   else
+          #     echo "Lambda '$1' does not exist" &&
+          #     aws lambda create-function \
+          #   --function-name $1 \
+          #   --runtime python3.9 \
+          #   --zip-file fileb://$1.zip \
+          #   --handler $1.handler \
+          #   --role arn:aws:iam::184261415726:role/service-role/testingPackage-role-0xjvn09o
+          #   fi
+          # }
 
-          does_lambda_exist  $file_name
-          done
+          # does_lambda_exist  $file_name
+          # done
 #       - name: zip Lambda Function
 #         run: |
 #                   zip -r9 lambda.zip lambdaFunction.py
